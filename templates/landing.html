@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div style="text-align: center; padding-top: 100px;">
+    <h1 style="font-size: 4rem; text-shadow: 0 0 20px var(--neon-purple);">Weave Your Memories</h1>
+    <p style="font-size: 1.5rem; margin-bottom: 40px;">Seamlessly stitch images together with AI-powered processing.</p>
+
+    <div class="glass-card" style="display: inline-block;">
+        <p>Upload overlapping photos -> Get one seamless panorama.</p>
+        <br>
+        <a href="{{ url_for('signup') }}" class="btn-neon" style="font-size: 1.2rem;">Start Stitching Now</a>
+    </div>
+</div>
+{% endblock %}

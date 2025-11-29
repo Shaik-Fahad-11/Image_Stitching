@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeonStitch | AI Image Stitcher</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <!-- FontAwesome for Icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="content-wrapper">
+        <nav class="glass-card nav-bar">
+            <h2 class="logo">NeonStitch</h2>
+            <div class="nav-links">
+                {% if current_user.is_authenticated %}
+                <span class="user-welcome">Hello, {{ current_user.username }}</span>
+                <a href="{{ url_for('dashboard') }}" class="btn-neon">Dashboard</a>
+                <a href="{{ url_for('logout') }}" class="btn-neon">Logout</a>
+                {% else %}
+                <a href="{{ url_for('login') }}" class="btn-neon">Login</a>
+                <a href="{{ url_for('signup') }}" class="btn-neon">Sign Up</a>
+                {% endif %}
+            </div>
+        </nav>
+
+        <div class="container">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category, message in messages %}
+            <div class="glass-card flash-message {{ category }}">
+                {{ message }}
+            </div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+
+    <!-- 3. CHANGE: Added Footer -->
+    <footer class="glass-footer">
+        <div class="footer-content">
+            <div class="footer-section about">
+                <h3>About NeonStitch</h3>
+                <p>An advanced AI-powered tool designed to seamlessly stitch your panoramic photos. Upload multiple
+                    overlapping images and let our algorithm weave your memories together.</p>
+            </div>
+            <div class="footer-section social">
+                <h3>Connect</h3>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+            <div class="footer-section contact">
+                <h3>Contact</h3>
+                <p><i class="fas fa-envelope"></i> support@neonstitch.com</p>
+                <p><i class="fas fa-phone"></i> +1 234 567 8900</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2025 NeonStitch | Designed with Python & Flask
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+
+</html>

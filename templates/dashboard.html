@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="dashboard-grid">
+    <!-- Sidebar -->
+    <div class="glass-card sidebar">
+        <h3 style="border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 10px;">History</h3>
+        <button class="btn-neon" onclick="resetDashboard()" style="width: 100%; margin-bottom: 10px;">+ New
+            Session</button>
+
+        <div id="history-list">
+            {% for session in history %}
+            <div class="history-item" id="session-{{ session.id }}"
+                onclick="loadSession('{{ url_for('static', filename=session.result_image) }}', {{ session.id }})">
+                <span>{{ session.session_name }}</span>
+                <span class="delete-btn" onclick="openDeleteModal(event, {{ session.id }})">✕</span>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Main Workspace -->
+    <div class="glass-card main-content">
+        <div id="upload-section">
+            <h2>New Stitching Session</h2>
+            <p>Select multiple overlapping images (JPG/PNG)</p>
+
+            <form id="upload-form" enctype="multipart/form-data">
+                <label class="upload-area" style="display: block; cursor: pointer;">
+                    <input type="file" id="file-input" name="files[]" multiple accept="image/*" style="display: none;"
+                        onchange="handleFileSelect(this)">
+                    <span id="file-label">Click to Upload Images</span>
+                </label>
+
+                <!-- New: Image Preview Grid -->
+                <div id="preview-container" class="preview-grid"></div>
+
+                <button type="submit" class="btn-neon" style="margin-top: 20px;">Stitch Images</button>
+            </form>
+
+            <div class="loader" id="loader"></div>
+            <p id="status-msg"></p>
+        </div>
+
+        <div id="result-section" style="display: none;">
+            <h3>Stitched Result</h3>
+            <img id="result-img" class="preview-large" src="" alt="Stitched Output">
+            <br><br>
+            <a id="download-btn" href="" download="stitched_output.png" class="btn-neon">Download Image</a>
+        </div>
+    </div>
+</div>
+
+<!-- Custom Error Modal -->
+<div id="error-modal" class="modal-overlay">
+    <div class="glass-card modal-box">
+        <h3 style="color: #ff4d4d;">Stitching Failed</h3>
+        <p id="error-message">Likely not enough keypoints detected.</p>
+        <button class="btn-neon" onclick="closeModal('error-modal')">Select Images Again</button>
+    </div>
+</div>
+
+<!-- Custom Delete Confirmation Modal -->
+<div id="delete-modal" class="modal-overlay">
+    <div class="glass-card modal-box">
+        <h3>Delete Session?</h3>
+        <p>Are you sure you want to remove this session history?</p>
+        <div style="display: flex; justify-content: center; gap: 10px;">
+            <button class="btn-neon delete-confirm-btn" id="confirm-delete-btn">Yes, Delete</button>
+            <button class="btn-neon" onclick="closeModal('delete-modal')">Cancel</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
