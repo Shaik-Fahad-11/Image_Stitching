@@ -63,8 +63,8 @@ NeonStitch/
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/neonstitch.git
-cd neonstitch
+git clone https://github.com/Shaik-Fahad-11/Image_Stitching.git
+cd Image_Stitching
 ```
 
 ### 2. Create a Virtual Environment
